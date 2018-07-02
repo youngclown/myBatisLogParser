@@ -22,7 +22,7 @@ tipJS.controller({
 		var param = {};
 
 		originArr = $txt_origin.val().split("\n");
-		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") );
+		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") + 5);
 		parsingArr[1] = originArr[1].trim();
 
 		if (originArr.length > 2) {
@@ -35,7 +35,7 @@ tipJS.controller({
 		parsingArr[1] = parsingArr[1].substring ( parsingArr[1].indexOf ("[")+1,parsingArr[1].indexOf ("]"));
 		paramArr = parsingArr[1].split(",");
 
-		tipJS.debug("paramArr:"+paramArr);
+		tipJS.log("paramArr:"+paramArr);
 
 
 		for (i = 0; i < paramArr.length; i++) {
@@ -46,17 +46,39 @@ tipJS.controller({
 				param.val  = "null";
 			}
 
-			if (preparing.indexOf("'@{") >= 0 && preparing.indexOf("'@{") < preparing.indexOf("?")) {
-				param.val = param.val;
-				preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
-			} else if (preparing.indexOf("?") >= 0){
-				param.val = param.val;
-				preparing = preparing.replace("?", param.val);
+			if (preparing.indexOf("@{") >= 0) {
+				if(preparing.indexOf("'@{") > preparing.indexOf("@{") && preparing.indexOf("@{") != -1) {
+					// scouter 가 "/"를 유실시켜, 쿼리 자체가 완성이 안되는 경우 때문에 강제로 해당 구분에 "/"를 넣어줌.
+					if (param.val == 10 && (preparing.indexOf("@{") - preparing.indexOf("} ) OR ")) <10) {
+						preparing = preparing.replace(/@{[0-9]?[0-9][0-9]?}/, "/ " + param.val);
+					} else {
+						preparing = preparing.replace(/@{[0-9]?[0-9][0-9]?}/, param.val);
+					}
+					continue;
+				} else if(preparing.indexOf("'@{") >= 0) {
+					preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
+					continue;
+				} else {
+					// scouter 가 "/"를 유실시켜, 쿼리 자체가 완성이 안되는 경우 때문에 강제로 해당 구분에 "/"를 넣어줌.
+					if (param.val == 10 && (preparing.indexOf("@{") - preparing.indexOf("} ) OR ")) <10) {
+						preparing = preparing.replace(/@{[0-9]?[0-9][0-9]?}/, "/ " + param.val);
+					} else {
+						preparing = preparing.replace(/@{[0-9]?[0-9][0-9]?}/, param.val);
+					}
+					continue;
+				}
 			}
+
+			if (preparing.indexOf("?") >= 0){
+				preparing = preparing.replace("?", param.val);
+				continue;
+			}
+			
 		}
 
 
-		result = preparing;
+		// scouter 가 "/"를 유실시켜, 쿼리 자체가 완성이 안되는 경우 때문에 강제로 해당 구분에 "/"를 넣어줌.
+		result = preparing.replace("m_usemoney          (   CASE WHEN", "m_usemoney    /  (   CASE WHEN");
 
 		parserView.set$txt_parsing(result);
 	},
