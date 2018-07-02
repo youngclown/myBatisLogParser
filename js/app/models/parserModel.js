@@ -3,10 +3,8 @@ tipJS.model({
 	sampleText: "",
 	savedCount: 0,
 	getSampleText : function(){
-		tipJS.debug("parseModel.getSampleText()");
-		this.sampleText = "DEBUG: java.sql.Connection - ==>  Preparing: SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = ? AND COL2 = ? AND NO = ?";
-		this.sampleText += "\nDEBUG: java.sql.PreparedStatement - ==> Parameters: test1(String), test2(String), 13(Long)";
-		
+		this.sampleText = "    -    [000002] 13:38:46.439        0      0  PRE> /* rtbShop.selMobileShopData ymkim*/   SELECT url, pcode, pnm, price,   imgpath, purl, cate1, NO, kakao_status FROM MOB_SHOP_DATA   WHERE   status='@{1}'   AND liveChk='@{2}'   AND userid=?   AND    pcode=?      AND    kakao_status=?";
+		this.sampleText += "\n                                                ['Y','Y','lfmall','A229XX00132','A'] 1 ms"
 		return this.sampleText;
 	},
 	getParsedSQL : function(key) {
