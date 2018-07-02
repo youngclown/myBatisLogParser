@@ -58,7 +58,9 @@ tipJS.controller({
 				} else if(preparing.indexOf("'@{") >= 0) {
 					preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
 					continue;
-				} else {
+				}
+				// @{ 형태만 있는 경우, "@{ 보다 숫자가 낮는 경우의 수 존재.
+				else {
 					// scouter 가 "/"를 유실시켜, 쿼리 자체가 완성이 안되는 경우 때문에 강제로 해당 구분에 "/"를 넣어줌.
 					if (param.val == 10 && (preparing.indexOf("@{") - preparing.indexOf("} ) OR ")) <10) {
 						preparing = preparing.replace(/@{[0-9]?[0-9][0-9]?}/, "/ " + param.val);
@@ -69,11 +71,12 @@ tipJS.controller({
 				}
 			}
 
+			// scouter 에서 @{1} 형태가 다 끝나면 ? 형태를 치환함.
 			if (preparing.indexOf("?") >= 0){
 				preparing = preparing.replace("?", param.val);
 				continue;
 			}
-			
+
 		}
 
 
