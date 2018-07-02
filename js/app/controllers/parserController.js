@@ -1,7 +1,4 @@
-/**
- * parserController was deprecated.
- *
- */
+
 tipJS.controller({
 	name : "app.parserController",
 	async: true,
@@ -10,15 +7,6 @@ tipJS.controller({
 		tipJS.debug(this.name + ".beforeInvoke");
 	},
 
-	/**
-	 * myBatis 로그 합치기
-	 * Preparing: Select dummy from dual where col = ? and col2 = ?
-	 * Parameters: val1(String), val2(String)
-	 *
-	 * Result) select ... where col = val1 and col2 = val2
-	 *
-	 * @return {[type]} [description]
-	 */
 	parse : function () {
 
 		var parserModel = this.loadModel("parserModel");
@@ -35,8 +23,8 @@ tipJS.controller({
 		var param = {};
 
 		originArr = $txt_origin.val().split("\n");
-		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("Preparing: ")+11 );
-		parsingArr[1] = originArr[1].substring ( originArr[1].indexOf ("Parameters: ")+12 );
+		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") );
+		parsingArr[1] = originArr[1].trim();
 
 		if (originArr.length > 2) {
 			for (i =2; i < originArr.length; i++ ) {
@@ -58,14 +46,14 @@ tipJS.controller({
 
 			param.typ = tempParams.substring(tempParams.lastIndexOf("(")+1, paramArr[i].lastIndexOf(")"));
 
-
-			if (preparing.indexOf("'@{") >= 0 && preparing.indexOf("'@{") < preparing.indexOf("?")) {
-				param.val = param.val;
-				preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
-			} else if (preparing.indexOf("?") >= 0){
-				param.val = param.val;
+			if (preparing.indexOf("'@{") > preparing.indexOf("?")) {
+				param.val = "'"+param.val+"'";
+				preparing = preparing.replace(/'@{[0-9]?[0-9][0-9]?}'/, param.val);
+			} else {
+				param.val = "'"+param.val+"'";
 				preparing = preparing.replace("?", param.val);
 			}
+
 		}
 		result = preparing;
 
@@ -96,7 +84,6 @@ tipJS.controller({
 		var list = parserModel.getListParsedSQL();
 		parserView.set$div_history(list);
 
-		//parserView.set$span_cnt("");
 		parserView.set$span_cnt(list.length);
 	},
 
@@ -108,11 +95,7 @@ tipJS.controller({
 	},
 
 	invoke : function( params ){
-
-		tipJS.log(this.name + " params:"+params);
-
 		var actName = params;
-
 		switch (actName) {
 			case "parse":
 				this.parse();
@@ -134,33 +117,6 @@ tipJS.controller({
 			break;
 		}
 
-	   // var _templateConfig = {
-    //         url:"/examples/helloWorldTpl/templates/helloWorld.tpl",
-    //         renderTo:"contents",
-    //         data:{
-    //             helloworld:"Hello World from " + params
-    //         }
-    //     };
-    //     this.renderTemplate(_templateConfig);
-
-/*
-		var globalTodos = this.loadModel("globalTodos", true),
-			utils = this.loadModel("utils"),
-			$input = params.input,
-			e = params.event,
-			val = $.trim( $input.val() );
-
-		if ( e.which !== globalTodos.ENTER_KEY || !val ) {
-			return;
-		}
-		globalTodos.todos.push({
-			id: utils.uuid(),
-			title: val,
-			completed: false
-		});
-		$input.val('');
-		*/
-		//this.loadView("renderer").updateView( globalTodos );
 
 	}
 });

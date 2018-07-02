@@ -8,17 +8,13 @@ tipJS.controller({
 		parserView.get$class_alert().hide();
 	},
 	invoke : function(){
-
 		var superThis = this;
 		$("#defaultForm").submit(function(e) {
 			e.preventDefault();
 		});
-
-		$("#div_button_list")
-		.on("click", "button", function(e) {
+		$("#div_button_list").on("click", "button", function(e) {
 			superThis.beforeClickHandler();
 			var btnActName = $(this).attr("id").substring(4);
-
 			if (btnActName === "clear") {
 				tipJS.action("app.removeController", "clear");
 			}else {

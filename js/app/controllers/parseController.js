@@ -6,15 +6,6 @@ tipJS.controller({
 		tipJS.debug(this.name + ".beforeInvoke");
 	},
 
-	/**
-	 * myBatis 로그 합치기
-	 * Preparing: Select dummy from dual where col = ? and col2 = ?
-	 * Parameters: val1(String), val2(String)
-	 *
-	 * Result) select ... where col = val1 and col2 = val2
-	 *
-	 * @return {[type]} [description]
-	 */
 	parse : function () {
 
 		var parserModel = this.loadModel("parserModel");
@@ -31,8 +22,8 @@ tipJS.controller({
 		var param = {};
 
 		originArr = $txt_origin.val().split("\n");
-		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("Preparing: ")+11 );
-		parsingArr[1] = originArr[1].substring ( originArr[1].indexOf ("Parameters: ")+12 );
+		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") );
+		parsingArr[1] = originArr[1].trim();
 
 		if (originArr.length > 2) {
 			for (i =2; i < originArr.length; i++ ) {
@@ -40,19 +31,20 @@ tipJS.controller({
 			}
 		}
 		preparing  = parsingArr[0];
+
+		parsingArr[1] = parsingArr[1].substring ( parsingArr[1].indexOf ("[")+1,parsingArr[1].indexOf ("]"));
 		paramArr = parsingArr[1].split(",");
+
 		tipJS.debug("paramArr:"+paramArr);
+
+
 		for (i = 0; i < paramArr.length; i++) {
 			var tempParams = paramArr[i];
-			lastIdx = tempParams.lastIndexOf("(");
-
-			param.val = $.trim ( tempParams.substring(0, lastIdx ) );
+			param.val = $.trim ( tempParams );
 
 			if (lastIdx < 0) {
 				param.val  = "null";
 			}
-
-			param.typ = tempParams.substring(tempParams.lastIndexOf("(")+1, paramArr[i].lastIndexOf(")"));
 
 			if (preparing.indexOf("'@{") >= 0 && preparing.indexOf("'@{") < preparing.indexOf("?")) {
 				param.val = param.val;
@@ -61,8 +53,9 @@ tipJS.controller({
 				param.val = param.val;
 				preparing = preparing.replace("?", param.val);
 			}
-
 		}
+
+
 		result = preparing;
 
 		parserView.set$txt_parsing(result);
