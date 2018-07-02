@@ -33,4 +33,7 @@ After :
 SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = 'CW' AND COL2 = '9999'
 ````
 
-진짜 오랜만에 tipJS를 보게 되었습니다.
+진짜 오랜만에 tipJS를 보면서 처리해봤습니다.
+그런데 5년동안 업데이트 안되어있네요. ^^;
+
+ps. scouter 에서 "/" 나누기가 안보이는 현상이 있음. 우선 해당 구분을 강제로 "/"를 넣도록 하드코딩했습니다.
