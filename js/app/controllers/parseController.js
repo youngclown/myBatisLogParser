@@ -54,11 +54,11 @@ tipJS.controller({
 
 			param.typ = tempParams.substring(tempParams.lastIndexOf("(")+1, paramArr[i].lastIndexOf(")"));
 
-			if ( preparing.indexOf("?") >= 0 ) {
-
-				if (param.typ === "String") {
-					param.val = "'"+param.val+"'";
-				}
+			if (preparing.indexOf("'@{") >= 0 && preparing.indexOf("'@{") < preparing.indexOf("?")) {
+				param.val = param.val;
+				preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
+			} else if (preparing.indexOf("?") >= 0){
+				param.val = param.val;
 				preparing = preparing.replace("?", param.val);
 			}
 
@@ -75,7 +75,7 @@ tipJS.controller({
 			parserView.get$txt_origin().focus();
 			parserView.get$class_alert().show();
 			return false;
-		} 
+		}
 		return true;
 	},
 	invoke : function( params ){

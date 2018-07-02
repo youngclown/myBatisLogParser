@@ -1,16 +1,36 @@
-myBatisLogParser
+ScouterLogParser
 ================
 
-myBatisLogParser
+myBatisLogParser -> scouter 출력 log로 변경
 
 Before :
- Copy & Paste myBatis log ;
- ```java
-  DEBUG: java.sql.Connection - ==>  Preparing: SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = ? AND COL2 = ? AND NO = ?
-  DEBUG: java.sql.PreparedStatement - ==> Parameters: test1(String), test2(String), 13(Long)
+ Copy & Paste scouter log ;
+ ```scouter
+ ------------------------------------------------------------------------------------------
+     p#      #    	  TIME         T-GAP   CPU          CONTENTS
+ ------------------------------------------------------------------------------------------
+          [******] 13:38:46.438        0      0  start transaction
+     -    [000000] 13:38:46.438        0      0  [driving thread] http-apr-80-exec-81
+     -    [000001] 13:38:46.439        1      0  SQLMAP queryForObject { rtbShop.selMobileShopData }
+     -    [000002] 13:38:46.439        0      0  PRE> /* test */ SELECTTEST1, TEST2 FROM DUAL   WHERE   TEST1='@{1}'   AND TEST2='@{2}'   AND TEST3=?  
+                                                 ['Y','Y','A229XX00132','A'] 1 ms
+          [******] 13:38:46.942      503      2  end of transaction
+ ------------------------------------------------------------------------------------------
+
+```
+위의 scouter log에서
 ```
 
+    -    [000002] 13:38:46.439        0      0  PRE> /* test */ SELECTTEST1, TEST2 FROM DUAL   WHERE   TEST1='@{1}'   AND TEST2='@{2}'   AND TEST3=?  
+                                                ['Y','Y','A229XX00132','A'] 1 ms
+------------------------------------------------------------------------------------------
+
+```
+위 내용만 복사하여 사용
+
 After :
-```sql 
-SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = 'test1' AND COL2 = 'test2' AND NO =  13
+```sql
+SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = 'CW' AND COL2 = '9999'
 ````
+
+진짜 오랜만에 tipJS를 보게 되었습니다.

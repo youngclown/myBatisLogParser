@@ -1,6 +1,6 @@
 /**
  * parserController was deprecated.
- *  
+ *
  */
 tipJS.controller({
 	name : "app.parserController",
@@ -58,14 +58,14 @@ tipJS.controller({
 
 			param.typ = tempParams.substring(tempParams.lastIndexOf("(")+1, paramArr[i].lastIndexOf(")"));
 
-			if ( preparing.indexOf("?") >= 0 ) {
 
-				if (param.typ === "String") {
-					param.val = "'"+param.val+"'";
-				}
+			if (preparing.indexOf("'@{") >= 0 && preparing.indexOf("'@{") < preparing.indexOf("?")) {
+				param.val = param.val;
+				preparing = preparing.replace(/[']@{[0-9]?[0-9][0-9]?}[']/, param.val);
+			} else if (preparing.indexOf("?") >= 0){
+				param.val = param.val;
 				preparing = preparing.replace("?", param.val);
 			}
-
 		}
 		result = preparing;
 
@@ -92,7 +92,7 @@ tipJS.controller({
 	list : function () {
 		var parserModel = this.loadModel("parserModel");
 		var parserView = this.loadView("parserView");
-		
+
 		var list = parserModel.getListParsedSQL();
 		parserView.set$div_history(list);
 
@@ -104,13 +104,13 @@ tipJS.controller({
 		var parserModel = this.loadModel("parserModel");
 		var parserView = this.loadView("parserView");
 		var sampleText = parserModel.getSampleText();
-		parserView.set$txt_origin (sampleText);	
+		parserView.set$txt_origin (sampleText);
 	},
 
 	invoke : function( params ){
 
 		tipJS.log(this.name + " params:"+params);
-		
+
 		var actName = params;
 
 		switch (actName) {
@@ -161,6 +161,6 @@ tipJS.controller({
 		$input.val('');
 		*/
 		//this.loadView("renderer").updateView( globalTodos );
-		
+
 	}
 });
