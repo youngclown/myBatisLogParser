@@ -19,7 +19,7 @@ tipJS.controller({
 
 		var originArr = [], parsingArr = [], paramArr = [];
 		var paramCnt = 0;
-		var result,preparing = "";
+		var preparing = "";
 		var param = {};
 
 		originArr = $txt_origin.val().split("\n");
@@ -74,10 +74,7 @@ tipJS.controller({
 
 		}
 
-		// scouter 가 "/"를 유실시켜, 쿼리 자체가 완성이 안되는 경우 때문에 강제로 해당 구분에 "/"를 넣어줌.
-	  result = preparing.replace("m_usemoney          (   CASE WHEN", "m_usemoney    /  (   CASE WHEN");
-
-		parserView.set$txt_parsing(result);
+		parserView.set$txt_parsing(preparing);
 	},
 
 	save : function () {
