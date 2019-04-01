@@ -78,7 +78,7 @@ tipJS.controller({
 			}
 
 		}
-		parserView.set$txt_parsing(result);
+		parserView.set$txt_parsing(preparing);
 	},
 	isRequiredOk : function ( params ) {
 		var parserView = this.loadView("parserView");

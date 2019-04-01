@@ -73,8 +73,7 @@ tipJS.controller({
 			}
 
 		}
-
-		parserView.set$txt_parsing(preparing);
+				parserView.set$txt_parsing(preparing);
 	},
 
 	save : function () {
