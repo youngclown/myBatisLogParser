@@ -37,3 +37,8 @@ SELECT TEST1, TEST2 FROM DUAL WHERE COL1 = 'CW' AND COL2 = '9999'
 
 - scouter 에서 "/" 나누기가 안보이는 현상이 있는데, scouter 를 fork 떠서 source를 봐도 문제는 없어 보여, 우선 해당 구분을 강제로 "/"를 넣도록 하드코딩 처리했습니다.  
 - scouter version 이 되면서 해당 버그가 수정이 되어, 해당 부분 원복했습니다.
+
+2019-04-22
+![sample](./img/SAMPLE001.jpg)
+
+scouter 의 경우 Bind SQL parameter 를 통해 파라미터가 자동으로 바인딩 처리되는 것을 확인했습니다.
