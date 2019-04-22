@@ -22,7 +22,9 @@ tipJS.controller({
 		var param = {};
 
 		originArr = $txt_origin.val().split("\n");
-		parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") + 5);
+		if (originArr[0].indexOf ("PRE> ") > -1) {
+			parsingArr[0] = originArr[0].substring ( originArr[0].indexOf ("PRE> ") + 5);
+		}
 		parsingArr[1] = originArr[1].trim();
 
 		if (originArr.length > 2) {
@@ -36,7 +38,6 @@ tipJS.controller({
 		paramArr = parsingArr[1].split(",");
 
 		tipJS.log("paramArr:"+paramArr);
-
 
 		for (i = 0; i < paramArr.length; i++) {
 			var tempParams = paramArr[i];
